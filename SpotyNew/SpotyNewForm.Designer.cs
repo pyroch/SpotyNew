@@ -33,6 +33,7 @@ namespace SpotyNew
             this.trackList = new System.Windows.Forms.ListView();
             this.currentUserId = new System.Windows.Forms.TextBox();
             this.currentUserIdLabel = new System.Windows.Forms.Label();
+            this.playlistsAmount = new System.Windows.Forms.ComboBox();
             this.SuspendLayout();
             // 
             // getTrackListButton
@@ -75,11 +76,22 @@ namespace SpotyNew
             this.currentUserIdLabel.TabIndex = 4;
             this.currentUserIdLabel.Text = "Current user:";
             // 
+            // playlistsAmount
+            // 
+            this.playlistsAmount.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.playlistsAmount.FormattingEnabled = true;
+            this.playlistsAmount.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            this.playlistsAmount.Location = new System.Drawing.Point(182, 12);
+            this.playlistsAmount.Name = "playlistsAmount";
+            this.playlistsAmount.Size = new System.Drawing.Size(121, 21);
+            this.playlistsAmount.TabIndex = 5;
+            // 
             // SpotyNewForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(562, 450);
+            this.Controls.Add(this.playlistsAmount);
             this.Controls.Add(this.currentUserIdLabel);
             this.Controls.Add(this.currentUserId);
             this.Controls.Add(this.trackList);
@@ -97,6 +109,7 @@ namespace SpotyNew
         private System.Windows.Forms.ListView trackList;
         private System.Windows.Forms.TextBox currentUserId;
         private System.Windows.Forms.Label currentUserIdLabel;
+        private System.Windows.Forms.ComboBox playlistsAmount;
     }
 }
 

@@ -2,8 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SpotyNew.Spotify
 {
@@ -20,43 +18,7 @@ namespace SpotyNew.Spotify
         static List<string> myArtistsIds;
         static List<Tuple<string, string, DateTime>> lastTracksList;
 
-        public static string GetTrackList(SpotifyClient spotify, int amount, string userId)
-        {
-
-            List<string> myArtistsIds = new List<string>(); // global list of artists Id's.
-            List<Tuple<string, string, DateTime>> lastTracksList = new List<Tuple<string, string, DateTime>>();
-
-            if (spotify == null)
-                return null;
-
-            var userPlaylists = spotify.Playlists.GetUsers(userId).Result;
-
-            if (amount > userPlaylists.Items.Count)
-            {
-                return "You don't have that amount of playlists. (" + userPlaylists.Items.Count + " max)";
-            }
-
-            for (int i = 0; i < amount; i++)
-            {
-                GetTracks(userPlaylists.Items[i].Id, spotify); // calls function that gets artists Id's
-            }
-
-            var fArtistIds = myArtistsIds.Distinct(); // getting rid of duplicates.
-
-            foreach (string artistId in fArtistIds)
-            {
-                if (artistId != null)
-                    GetLastAlbum(artistId, spotify);
-            }
-
-            var result = lastTracksList.OrderByDescending(x => x.Item3);
-
-            var ts = string.Join("", result.Select(t => string.Format("{0} - {1}, {2}\n", t.Item1, t.Item2, t.Item3.ToString("dd/MM/yyyy"))));
-            return ts;
-        }
-
-
-        public static List<Tuple<string, string, DateTime>> GetTrackListTuple(SpotifyClient spotify, int amount, string userId)
+        public static List<Tuple<string, string, DateTime>> GetTrackList(SpotifyClient spotify, int amount, string userId)
         {
             myArtistsIds = new List<string>(); // global list of artists Id's.
             lastTracksList = new List<Tuple<string, string, DateTime>>();
@@ -69,9 +31,7 @@ namespace SpotyNew.Spotify
 
             try
             {
-
                 var userPlaylists = spotify.Playlists.GetUsers(userId).Result;
-
 
                 if (amount > userPlaylists.Items.Count)
                 {
@@ -90,8 +50,6 @@ namespace SpotyNew.Spotify
                         GetLastAlbum(artistId, spotify);
                 }
 
-                var result = lastTracksList.OrderByDescending(x => x.Item3);
-
                 return lastTracksList;
             }
             catch
@@ -99,6 +57,7 @@ namespace SpotyNew.Spotify
                 return null;
             }
         }
+
         static void GetTracks(string playlistId, SpotifyClient spotify) // function that gets Id's of artists from list of tracks in playlist.
         {
             var playlist = spotify.Playlists.Get(playlistId).Result;

@@ -3,9 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
-using System.Drawing;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -33,6 +31,11 @@ namespace SpotyNew
             trackList.AutoResizeColumns(ColumnHeaderAutoResizeStyle.ColumnContent);
             trackList.AutoResizeColumns(ColumnHeaderAutoResizeStyle.HeaderSize);
 
+            for(int i=1;i<=10;i++)
+            {
+                playlistsAmount.Items.Add(i);
+            }
+
             worker = new BackgroundWorker();
             worker.WorkerReportsProgress = true;
             worker.WorkerSupportsCancellation = true;
@@ -49,10 +52,15 @@ namespace SpotyNew
 
         private void worker_DoWork(object sender, DoWorkEventArgs e)
         {
-            var runGetTrackList = Spotify.TrackList.GetTrackListTuple(_spotifyClient, 1, currentUserId.Text);//// 1 is amount of playlists
+            int pAmount = 0;
+            playlistsAmount.Invoke(new Action(() =>
+            {
+                pAmount = (int)playlistsAmount.SelectedItem;
+            }));
+            var runGetTrackList = Spotify.TrackList.GetTrackList(_spotifyClient, pAmount, currentUserId.Text);//// 1 is amount of playlists
             if (runGetTrackList == null)
             {
-                MessageBox.Show("Can't get track list. Maybe internet offline or Spotify is down?.");
+                MessageBox.Show("Can't get track list.");
                 return;
             }
             e.Result = runGetTrackList;
