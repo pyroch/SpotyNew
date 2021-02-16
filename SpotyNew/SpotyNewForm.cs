@@ -15,6 +15,8 @@ namespace SpotyNew
 
         BackgroundWorker worker;
 
+        public static string lastUserId;
+
         public SpotyNewForm()
         {
             InitializeComponent();
@@ -24,6 +26,9 @@ namespace SpotyNew
 
         private void Init()
         {
+            currentUserId.Text = Custom.Config.userConfig.lastUser;
+            lastUserId = currentUserId.Text;
+
             ColumnHeader header = new ColumnHeader();
             header.Text = "";
             header.Name = "c1";
@@ -55,9 +60,10 @@ namespace SpotyNew
             int pAmount = 0;
             playlistsAmount.Invoke(new Action(() =>
             {
-                pAmount = (int)playlistsAmount.SelectedItem;
+                if(playlistsAmount.SelectedItem != null)
+                    pAmount = (int)playlistsAmount.SelectedItem;
             }));
-            var runGetTrackList = Spotify.TrackList.GetTrackList(_spotifyClient, pAmount, currentUserId.Text);//// 1 is amount of playlists
+            var runGetTrackList = Spotify.TrackList.GetTrackList(_spotifyClient, pAmount, currentUserId.Text);
             if (runGetTrackList == null)
             {
                 MessageBox.Show("Can't get track list.");
@@ -78,12 +84,15 @@ namespace SpotyNew
                     trackList.Items.Add(x.Item1 + " - " + x.Item2 + ", " + x.Item3.ToString("dd/MM/yyyy"));
                 }
             }
+            getTrackListButton.Enabled = true;
         }
 
         private void getTrackListButton_Click(object sender, EventArgs e)
         {
+            lastUserId = currentUserId.Text;
             try
             {
+                getTrackListButton.Enabled = false;
                 worker.RunWorkerAsync();
             }
             catch

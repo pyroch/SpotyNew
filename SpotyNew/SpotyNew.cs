@@ -12,6 +12,9 @@ namespace SpotyNew
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new SpotyNewForm());
+
+            Custom.Config.userConfig.lastUser = SpotyNewForm.lastUserId;
+            Custom.Config.Sync();
         }
     }
 }

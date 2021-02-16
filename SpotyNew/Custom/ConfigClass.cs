@@ -4,5 +4,6 @@
     {
         public string clientId = "";
         public string clientSecret = "";
+        public string lastUser = "";
     }
 }
